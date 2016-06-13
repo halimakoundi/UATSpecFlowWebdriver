@@ -8,8 +8,8 @@ namespace AsosUAT.Spec
 {
     internal class Website
     {
-        private readonly string _homeUrl = "http://www.asos.com/";
         private readonly IWebDriver _driver = new FirefoxDriver();
+        private readonly string _homeUrl = "http://www.asos.com/";
 
         public List<string> GetJeans()
         {
@@ -18,11 +18,17 @@ namespace AsosUAT.Spec
             return jeans.Select(jean => jean.FindElement(By.TagName("a")).Text).ToList();
         }
 
-        public void ViewJeanCategory()
+        public void GoToGender(string gender)
         {
             var action = new Actions(_driver);
-            var womenCategoryHover = _driver.FindElement(By.LinkText("WOMEN"));
-            action.MoveToElement(womenCategoryHover).Perform();
+            var genderCategoryHover = _driver.FindElement(
+                By.LinkText(gender.ToUpper()));
+
+            action.MoveToElement(genderCategoryHover).Perform();
+        }
+
+        public void ViewJeanCategory()
+        {
             var jeansLink = _driver.FindElement(By.LinkText("Jeans"));
             jeansLink.Click();
         }
